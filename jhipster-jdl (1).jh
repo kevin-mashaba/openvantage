@@ -1,0 +1,8 @@
+entity Task{
+id Number
+title String
+category String
+description String
+date LocalDate
+status Boolean
+}

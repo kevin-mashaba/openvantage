@@ -3,39 +3,107 @@
         <span class="hipster img-fluid rounded"></span>
     </div>
     <div class="col-md-9">
-        <h1 class="display-4">Welcome, Java Hipster!</h1>
-        <p class="lead">This is your homepage</p>
+        <h1 class="display-4">Welcome To The Todo App!</h1>
+       
 
-        <div [ngSwitch]="isAuthenticated()">
-            <div class="alert alert-success" *ngSwitchCase="true">
-                <span id="home-logged-message" *ngIf="account"
-                   > You are logged in as user "{{account.login}}". </span>
-            </div>
+        <div *ngIf="isAuthenticated()">
+                <div class="row">
+                    <div class="col-md-8">
+                            <h4 class="spacerx">Manage your tasks from one place</h4>
+                    </div>
 
-            <div class="alert alert-warning" *ngSwitchCase="false">
-                <span>If you want to </span>
-                <a class="alert-link" (click)="login()">sign in</a><span>, you can try the default accounts:<br/>- Administrator (login="admin" and password="admin") <br/>- User (login="user" and password="user").</span>
-            </div>
-            <div class="alert alert-warning" *ngSwitchCase="false">
-                <span>You don't have an account yet?</span>&nbsp;
-                <a class="alert-link" routerLink="register">Register a new account</a>
-            </div>
+                    <div class="col-md-4">
+                            <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-task" [routerLink]="['/task/new']">
+                                <fa-icon [icon]="'plus'"></fa-icon>
+                                <span >
+                                Create a new Task
+                                </span>
+                            </button>
+                    </div>
+                </div>
+
+
+                
+               
+                <hr>
+           
+                <div class="row mb-2">
+                    <div class="col-md-12">
+                            <input type="text" placeholder="search. . ." class="form-control" (keyup)="filter($event)" />
+                    </div>
+                   
+                </div>
+            
+            
+                <ngb-accordion #a="ngbAccordion" activeIds="custom-panel-1">
+                        <ngb-panel id="{{i}}" *ngFor="let task of tasks;let i = index" >
+                          <ng-template ngbPanelHeader >
+                              <div  class="border-card">
+
+                              
+                                <div class="card-type-icon with-border" >{{i+1}}</div>
+                                <div class="content-wrapper">
+                                <div class="label-group fixed">
+                                <p class="title">Title</p>
+                                <p class="caption">{{task.title}}</p>
+                                </div>
+                                <div class="min-gap"></div>
+                                <div class="label-group">
+                                <p class="title">Cateogy</p>
+                                <p class="caption">{{task.category}}</p>
+                                </div>
+                               
+                                <div class="min-gap"></div>
+                                <div class="label-group">
+                                <p class="title">Status</p>
+                                <p class="caption">{{task.status ? "Complete":"Incomplete"}}</p>
+                                </div>
+                
+                                <div class="min-gap"></div>
+                                <div class="label-group">
+                                <p class="title">Due Date</p>
+                                <p class="caption">{{task.date | date:'mediumDate'}}</p>
+                                </div>
+                                </a>
+                                    <div class="spacery">
+                                            <button type="submit"
+                                            [routerLink]="['/task', task.id, 'edit']"
+                                            class="btn btn-warning btn-sm">
+                                        <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                                        <span class="d-none d-md-inline">Edit</span>
+                                    </button>
+                                    <button type="submit"
+                                            [routerLink]="['/task', { outlets: { popup: task.id + '/delete'} }]"
+                                            replaceUrl="true"
+                                            queryParamsHandling="merge"
+                                            class="btn btn-danger btn-sm">
+                                        <fa-icon [icon]="'times'"></fa-icon>
+                                        <span class="d-none d-md-inline">Delete</span>
+                                    </button>
+
+                                    <button ngbPanelToggle class="btn btn-info btn-sm"> Description</button>
+                                    </div>
+                                </div>
+                            </div>
+                          </ng-template>
+                          <ng-template ngbPanelContent>
+                           {{task.description}}
+                           
+                          
+                          </ng-template>
+                        </ngb-panel>
+
+
+
+
+                       </ngb-accordion>
+                
+            
         </div>
 
-        <p>
-            If you have any question on JHipster:
-        </p>
+        <div *ngIf="!isAuthenticated()">
+            <p>Please sign in to view contents</p>
+        </div>
 
-        <ul>
-            <li><a href="https://www.jhipster.tech/" target="_blank" rel="noopener">JHipster homepage</a></li>
-            <li><a href="http://stackoverflow.com/tags/jhipster/info" target="_blank" rel="noopener">JHipster on Stack Overflow</a></li>
-            <li><a href="https://github.com/jhipster/generator-jhipster/issues?state=open" target="_blank" rel="noopener">JHipster bug tracker</a></li>
-            <li><a href="https://gitter.im/jhipster/generator-jhipster" target="_blank" rel="noopener">JHipster public chat room</a></li>
-            <li><a href="https://twitter.com/java_hipster" target="_blank" rel="noopener">follow @java_hipster on Twitter</a></li>
-        </ul>
-
-        <p>
-            <span>If you like JHipster, don't forget to give us a star on</span> <a href="https://github.com/jhipster/generator-jhipster" target="_blank" rel="noopener">GitHub</a>!
-        </p>
     </div>
 </div>
