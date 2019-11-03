@@ -44,7 +44,9 @@ export class HomeComponent implements OnInit {
 
   filter(e) {
     let searchText = e.target.value;
-    this.tasks = this.allTasks.filter(task => task.title.includes(searchText) || task.category.includes(searchText));
+    this.tasks = this.allTasks.filter(
+      task => task.title.includes(searchText.charAt(0).toUpperCase()) || task.category.includes(searchText.charAt(0).toUpperCase())
+    );
   }
 
   ngOnInit() {
